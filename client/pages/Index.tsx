@@ -75,7 +75,10 @@ export default function Index() {
         const np = { t: `${t.getHours()}:${String(t.getMinutes()).padStart(2, "0")}`, value: Math.min(100, val) };
         return [...d.slice(-19), np];
       });
-      setHotspots((h) => h.map((p) => ({ ...p, severity: Math.min(1, Math.max(0, p.severity + (Math.random() - 0.5) * 0.25))) })));
+      setHotspots((h) => h.map((p) => {
+        const sev = Math.min(1, Math.max(0, p.severity + (Math.random() - 0.5) * 0.25));
+        return { ...p, severity: sev };
+      }));
       setPosts((p) => {
         if (Math.random() > 0.7) {
           const samples: Post[] = [
