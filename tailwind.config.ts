@@ -80,10 +80,42 @@ export default {
             height: "0",
           },
         },
+        pulsePing: {
+          "0%": { transform: "scale(0.95)", opacity: "0.7" },
+          "70%": { transform: "scale(1.2)", opacity: "0" },
+          "100%": { transform: "scale(1.2)", opacity: "0" },
+        },
       },
       animation: {
         "accordion-down": "accordion-down 0.2s ease-out",
         "accordion-up": "accordion-up 0.2s ease-out",
+        pulsePing: "pulsePing 1.8s cubic-bezier(0, 0, 0.2, 1) infinite",
+      },
+      fontFamily: {
+        sans: [
+          "Inter",
+          "ui-sans-serif",
+          "system-ui",
+          "-apple-system",
+          "Segoe UI",
+          "Roboto",
+          "Helvetica Neue",
+          "Arial",
+          "Noto Sans",
+          "Apple Color Emoji",
+          "Segoe UI Emoji",
+          "Segoe UI Symbol",
+          "Noto Color Emoji",
+        ],
+      },
+      backgroundImage: {
+        "grid-fade":
+          "radial-gradient(circle at 1px 1px, hsl(var(--border)) 1px, transparent 0)",
+        "glow":
+          "radial-gradient(60% 60% at 50% 0%, hsla(var(--primary),0.15), transparent 60%)",
+      },
+      boxShadow: {
+        soft: "0 10px 25px -10px rgba(0,0,0,0.15)",
       },
     },
   },
