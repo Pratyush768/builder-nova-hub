@@ -16,7 +16,11 @@ export default function Header() {
               />
             </svg>
           </span>
-          <span className={cn("text-lg font-extrabold tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent")}>
+          <span
+            className={cn(
+              "text-lg font-extrabold tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent",
+            )}
+          >
             Aeris
           </span>
         </Link>

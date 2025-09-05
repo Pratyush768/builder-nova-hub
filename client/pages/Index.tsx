@@ -346,20 +346,30 @@ export default function Index() {
                   <span
                     className={cn(
                       "inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs",
-                      liveStatus === "open" && "border-green-500/40 text-green-600 dark:text-green-400",
-                      liveStatus === "connecting" && "border-yellow-500/40 text-yellow-600 dark:text-yellow-400",
-                      liveStatus === "error" && "border-destructive/40 text-destructive",
+                      liveStatus === "open" &&
+                        "border-green-500/40 text-green-600 dark:text-green-400",
+                      liveStatus === "connecting" &&
+                        "border-yellow-500/40 text-yellow-600 dark:text-yellow-400",
+                      liveStatus === "error" &&
+                        "border-destructive/40 text-destructive",
                     )}
                   >
                     <span
                       className={cn(
                         "h-2 w-2 rounded-full",
                         liveStatus === "open" && "bg-green-500 animate-pulse",
-                        liveStatus === "connecting" && "bg-yellow-500 animate-pulse",
+                        liveStatus === "connecting" &&
+                          "bg-yellow-500 animate-pulse",
                         liveStatus === "error" && "bg-destructive",
                       )}
                     />
-                    {liveStatus === "open" ? "Connected" : liveStatus === "connecting" ? "Connecting…" : liveStatus === "error" ? "Error" : "Idle"}
+                    {liveStatus === "open"
+                      ? "Connected"
+                      : liveStatus === "connecting"
+                        ? "Connecting…"
+                        : liveStatus === "error"
+                          ? "Error"
+                          : "Idle"}
                   </span>
                 )}
                 <a href="#dashboard" className="inline-flex">
@@ -544,7 +554,11 @@ export default function Index() {
 
               <div className="rounded-xl border bg-card p-4 shadow-soft">
                 <h3 className="mb-3 font-semibold">Alerts</h3>
-                <ul className="space-y-2 text-sm" role="status" aria-live="polite">
+                <ul
+                  className="space-y-2 text-sm"
+                  role="status"
+                  aria-live="polite"
+                >
                   {alerts.map((a) => (
                     <li
                       key={a.id}
