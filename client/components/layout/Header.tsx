@@ -1,6 +1,22 @@
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 import { Link } from "react-router-dom";
+import { useTheme } from "@/hooks/use-theme";
+import { Moon, Sun } from "lucide-react";
+
+function ThemeToggle() {
+  const { theme, toggle } = useTheme();
+  return (
+    <button
+      aria-label="Toggle theme"
+      onClick={toggle}
+      className="inline-flex items-center gap-2 rounded-md border bg-card px-2 py-1 text-xs hover:bg-secondary"
+    >
+      {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+      <span className="hidden sm:inline">{theme === "dark" ? "Light" : "Dark"}</span>
+    </button>
+  );
+}
 
 export default function Header() {
   return (
