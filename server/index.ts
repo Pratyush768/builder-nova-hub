@@ -37,5 +37,12 @@ export function createServer() {
   // Insights API
   app.get("/api/insights", getInsights);
 
+  // Alerts API
+  const alerts = await import("./routes/alerts");
+  app.get("/api/alerts", alerts.getAlerts);
+  app.get("/api/alerts/stream", alerts.getAlertsStream);
+  app.post("/api/alerts/verify", alerts.postVerifyAlert);
+  app.post("/api/alerts/create", alerts.postCreateAlert);
+
   return app;
 }
