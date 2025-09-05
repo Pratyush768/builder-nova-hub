@@ -105,6 +105,53 @@ export default function Index() {
     return out;
   }, [sensors]);
 
+  // Live feed via SSE (sensors + comms)
+  useEffect(() => {
+    if (!live) return;
+    setRunning(false);
+
+    let sseSensors: EventSource | null = null;
+    let sseComms: EventSource | null = null;
+
+    function addPMTrend(pm: number) {
+      setTrendPM((d) => {
+        const t = new Date();
+        const np = { t: `${t.getHours()}:${String(t.getMinutes()).padStart(2, "0")}`, value: Math.max(0, pm) };
+        return [...d.slice(-19), np];
+      });
+      setTrendSent((d) => {
+        const t = new Date();
+        const np = { t: `${t.getHours()}:${String(t.getMinutes()).padStart(2, "0")}`, value: Math.min(100, 30 + (pm / 2)) };
+        return [...d.slice(-19), np];
+      });
+      setHotspots((h) => h.map((p, i) => ({ ...p, severity: Math.min(1, Math.max(0, (pm / 200) + (i % 3) * 0.1)) })));
+    }
+
+    sseSensors = new EventSource("/api/sensors/stream");
+    sseSensors.addEventListener("sensor", (e) => {
+      try {
+        const evt = JSON.parse((e as MessageEvent).data);
+        const reading = evt.data as { pm25: number; pm10: number; gas: number; temp: number; humidity: number };
+        setSensors({ pm25: reading.pm25, pm10: reading.pm10, gas: reading.gas, temp: reading.temp, humidity: reading.humidity });
+        addPMTrend(reading.pm25);
+      } catch {}
+    });
+
+    sseComms = new EventSource("/api/comms/stream");
+    sseComms.addEventListener("comm", (e) => {
+      try {
+        const evt = JSON.parse((e as MessageEvent).data);
+        const a = evt.data as { post: { id: string; text: string; location?: string; urgency?: "low" | "medium" | "high"; need?: string } };
+        setPosts((p) => [{ id: a.post.id, text: a.post.text, location: a.post.location || "Unknown", sentiment: (a.post.urgency || "low"), need: a.post.need || "" }, ...p].slice(0, 6));
+      } catch {}
+    });
+
+    return () => {
+      sseSensors?.close();
+      sseComms?.close();
+    };
+  }, [live]);
+
   return (
     <main>
       <section id="overview" className="relative border-b bg-gradient-to-b from-background via-background to-secondary">
