@@ -26,9 +26,12 @@ function statColor(value: number, warn: number, danger: number) {
   return "text-foreground";
 }
 
+type LiveStatus = "idle" | "connecting" | "open" | "error";
+
 export default function Index() {
   const [running, setRunning] = useState(true);
   const [live, setLive] = useState(false);
+  const [liveStatus, setLiveStatus] = useState<LiveStatus>("idle");
   const [sensors, setSensors] = useState<SensorState>({
     pm25: 22,
     pm10: 30,
