@@ -220,6 +220,7 @@ export default function Index() {
   useEffect(() => {
     if (!live) return;
     setRunning(false);
+    setLiveStatus("connecting");
 
     let sseSensors: EventSource | null = null;
     let sseComms: EventSource | null = null;
