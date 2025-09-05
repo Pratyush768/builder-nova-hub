@@ -38,11 +38,10 @@ export function createServer() {
   app.get("/api/insights", getInsights);
 
   // Alerts API
-  const alerts = await import("./routes/alerts");
-  app.get("/api/alerts", alerts.getAlerts);
-  app.get("/api/alerts/stream", alerts.getAlertsStream);
-  app.post("/api/alerts/verify", alerts.postVerifyAlert);
-  app.post("/api/alerts/create", alerts.postCreateAlert);
+  app.get("/api/alerts", require("./routes/alerts").getAlerts);
+  app.get("/api/alerts/stream", require("./routes/alerts").getAlertsStream);
+  app.post("/api/alerts/verify", require("./routes/alerts").postVerifyAlert);
+  app.post("/api/alerts/create", require("./routes/alerts").postCreateAlert);
 
   return app;
 }
