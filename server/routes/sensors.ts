@@ -46,6 +46,26 @@ export const postIngestSensor: RequestHandler = (req, res) => {
   const ipayload = `event: insight\ndata: ${JSON.stringify(ievt)}\n\n`;
   clients.forEach((c) => c.write(ipayload));
 
+  // threshold-based alert generation (demo)
+  try {
+    const sector = r.sector || "Sector A";
+    if (r.pm25 > 200 || r.gas > 700) {
+      const { upsertThresholdAlert } = await import("./alerts");
+      upsertThresholdAlert({
+        id: `critical-${sector}`,
+        type: r.gas > 700 ? "gas" : "fire",
+        severity: "critical",
+        verified: false,
+        sector,
+        message: r.gas > 700 ? "GAS LEAK SUSPECTED" : "FIRE DETECTED",
+        lat: r.location?.lat,
+        lon: r.location?.lon,
+        node_id: r.deviceId,
+        evidence: [{ sensor: r.gas > 700 ? "mq2" : "pm2_5", value: r.gas > 700 ? r.gas : r.pm25, ts: r.ts }],
+      });
+    }
+  } catch {}
+
   const response: LatestSensorResponse = { reading: r };
   res.status(200).json(response);
 };
