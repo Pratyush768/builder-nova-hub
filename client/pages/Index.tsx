@@ -28,6 +28,7 @@ function statColor(value: number, warn: number, danger: number) {
 
 export default function Index() {
   const [running, setRunning] = useState(true);
+  const [live, setLive] = useState(false);
   const [sensors, setSensors] = useState<SensorState>({ pm25: 22, pm10: 30, gas: 120, temp: 31, humidity: 58 });
   const [trendPM, setTrendPM] = useState<TrendPoint[]>([]);
   const [trendSent, setTrendSent] = useState<TrendPoint[]>([]);
