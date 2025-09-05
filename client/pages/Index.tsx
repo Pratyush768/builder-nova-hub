@@ -76,6 +76,9 @@ export default function Index() {
       label: `S${i + 1}`,
     })),
   );
+  const [alerts, setAlerts] = useState<AlertState[]>([]);
+  const [filter, setFilter] = useState<"all" | "normal" | "elevated" | "critical">("all");
+  const [search, setSearch] = useState("");
 
   useEffect(() => {
     const now = new Date();
