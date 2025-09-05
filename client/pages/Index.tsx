@@ -522,7 +522,7 @@ export default function Index() {
                   {posts.map((p) => (
                     <li
                       key={p.id}
-                      className="rounded-lg border bg-background p-3"
+                      className="rounded-lg border bg-background p-3 hover:bg-secondary/40 transition-colors"
                     >
                       <div className="flex items-center justify-between gap-3">
                         <div className="text-sm">{p.text}</div>
