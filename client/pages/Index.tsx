@@ -275,6 +275,8 @@ export default function Index() {
     });
 
     sseComms = new EventSource("/api/comms/stream");
+    sseComms.onopen = () => setLiveStatus("open");
+    sseComms.onerror = () => setLiveStatus("error");
     sseComms.addEventListener("comm", (e) => {
       try {
         const evt = JSON.parse((e as MessageEvent).data);
