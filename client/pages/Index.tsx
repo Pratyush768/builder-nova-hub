@@ -182,7 +182,7 @@ export default function Index() {
     return () => clearInterval(interval);
   }, [running, sensors.pm25, live]);
 
-  const alerts = useMemo(() => {
+  const uiAlerts = useMemo(() => {
     const out: {
       id: string;
       level: "info" | "warn" | "critical";
