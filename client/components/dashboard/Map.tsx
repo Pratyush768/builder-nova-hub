@@ -73,6 +73,12 @@ export default function Map({ hotspots }: { hotspots: Hotspot[] }) {
         })}
       </svg>
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/40" />
+      <div className="absolute right-2 bottom-2 rounded-md border bg-background/80 p-2 text-[10px] shadow-soft backdrop-blur">
+        <div className="mb-1 font-medium text-xs">Legend</div>
+        <div className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-destructive" /> Critical</div>
+        <div className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-accent" /> Elevated</div>
+        <div className="flex items-center gap-2"><span className="h-2 w-2 rounded-full bg-primary" /> Normal</div>
+      </div>
     </div>
   );
 }
