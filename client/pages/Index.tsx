@@ -93,7 +93,7 @@ export default function Index() {
       });
     }, 2000);
     return () => clearInterval(interval);
-  }, [running, sensors.pm25]);
+  }, [running, sensors.pm25, live]);
 
   const alerts = useMemo(() => {
     const out: { id: string; level: "info" | "warn" | "critical"; text: string }[] = [];
