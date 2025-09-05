@@ -251,6 +251,8 @@ export default function Index() {
     }
 
     sseSensors = new EventSource("/api/sensors/stream");
+    sseSensors.onopen = () => setLiveStatus("open");
+    sseSensors.onerror = () => setLiveStatus("error");
     sseSensors.addEventListener("sensor", (e) => {
       try {
         const evt = JSON.parse((e as MessageEvent).data);
