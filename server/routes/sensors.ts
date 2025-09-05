@@ -50,7 +50,7 @@ export const postIngestSensor: RequestHandler = (req, res) => {
   try {
     const sector = r.sector || "Sector A";
     if (r.pm25 > 200 || r.gas > 700) {
-      const { upsertThresholdAlert } = await import("./alerts");
+      const { upsertThresholdAlert } = require("./alerts");
       upsertThresholdAlert({
         id: `critical-${sector}`,
         type: r.gas > 700 ? "gas" : "fire",
