@@ -313,6 +313,18 @@ export default function Index() {
 
   return (
     <main>
+      {/* Live verified alert banner (demo: auto-show when sensor thresholds exceeded) */}
+      {sensors.pm25 > 200 || sensors.gas > 700 ? (
+        <div className="sticky top-0 z-40">
+          <div className="bg-destructive text-destructive-foreground">
+            <div className="container flex items-center justify-between gap-4 py-2 text-sm font-semibold">
+              <div>VERIFIED ALERT: FIRE DETECTED — AMARAVATI, SECTOR A</div>
+              <div className="opacity-90">HLDMS</div>
+            </div>
+          </div>
+        </div>
+      ) : null}
+
       <section
         id="overview"
         className="relative border-b bg-gradient-to-b from-background via-background to-secondary"
