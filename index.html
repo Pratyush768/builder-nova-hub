@@ -5,12 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Hello world project</title>
     <script>
-      (function() {
+      (function () {
         try {
-          const ls = localStorage.getItem('theme');
-          const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-          const theme = ls === 'light' || ls === 'dark' ? ls : (prefersDark ? 'dark' : 'light');
-          if (theme === 'dark') document.documentElement.classList.add('dark');
+          const ls = localStorage.getItem("theme");
+          const prefersDark =
+            window.matchMedia &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches;
+          const theme =
+            ls === "light" || ls === "dark"
+              ? ls
+              : prefersDark
+                ? "dark"
+                : "light";
+          if (theme === "dark") document.documentElement.classList.add("dark");
         } catch (_) {}
       })();
     </script>
