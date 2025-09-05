@@ -608,7 +608,7 @@ export default function Index() {
                   role="status"
                   aria-live="polite"
                 >
-                  {alerts.map((a) => (
+                  {uiAlerts.map((a) => (
                     <li
                       key={a.id}
                       className={cn(
