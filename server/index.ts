@@ -39,10 +39,10 @@ export function createServer() {
   app.get("/api/insights", getInsights);
 
   // Alerts API
-  app.get("/api/alerts", (await import("./routes/alerts")).getAlerts);
-  app.get("/api/alerts/stream", (await import("./routes/alerts")).getAlertsStream);
-  app.post("/api/alerts/verify", (await import("./routes/alerts")).postVerifyAlert);
-  app.post("/api/alerts/create", (await import("./routes/alerts")).postCreateAlert);
+  app.get("/api/alerts", getAlerts);
+  app.get("/api/alerts/stream", getAlertsStream);
+  app.post("/api/alerts/verify", postVerifyAlert);
+  app.post("/api/alerts/create", postCreateAlert);
 
   return app;
 }
