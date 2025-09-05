@@ -53,7 +53,7 @@ export default function Index() {
   }, []);
 
   useEffect(() => {
-    if (!running) return;
+    if (!running || live) return;
     const interval = setInterval(() => {
       setSensors((s) => {
         const ns = {
