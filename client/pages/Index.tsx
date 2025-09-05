@@ -121,7 +121,10 @@ export default function Index() {
                 Combine real‑time sensor data with AI analysis of communication to deliver actionable, street‑level insights during floods, fires, and heatwaves.
               </p>
               <div className="mt-6 flex flex-wrap items-center gap-3" id="demo">
-                <Button onClick={() => setRunning((r) => !r)} className="">{running ? "Pause Simulation" : "Resume Simulation"}</Button>
+                <Button onClick={() => setRunning((r) => !r)} disabled={live}>{running ? "Pause Simulation" : "Resume Simulation"}</Button>
+                <Button variant={live ? "default" : "secondary"} onClick={() => setLive((v) => !v)}>
+                  {live ? "Using Live Feed" : "Use Live Feed"}
+                </Button>
                 <a href="#dashboard" className="inline-flex">
                   <Button variant="secondary">Jump to Dashboard</Button>
                 </a>
