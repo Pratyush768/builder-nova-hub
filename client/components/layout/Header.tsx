@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
+import { Link } from "react-router-dom";
 
 export default function Header() {
   return (
@@ -16,7 +17,7 @@ export default function Header() {
               />
             </svg>
           </span>
-          <span className={cn("text-lg font-extrabold tracking-tight")}>
+          <span className={cn("text-lg font-extrabold tracking-tight bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent")}>
             Aeris
           </span>
         </Link>
