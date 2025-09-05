@@ -31,9 +31,11 @@ export default function Index() {
   const [sensors, setSensors] = useState<SensorState>({ pm25: 22, pm10: 30, gas: 120, temp: 31, humidity: 58 });
   const [trendPM, setTrendPM] = useState<TrendPoint[]>([]);
   const [trendSent, setTrendSent] = useState<TrendPoint[]>([]);
-  const [posts, setPosts] = useState<Post[]>([{
-    id: "p1", text: "Heavy smoke near Sector X, visibility low.", location: "Sector X", sentiment: "high", need: "Masks & water",
-  }, { id: "p2", text: "Flooded street around Maple Ave, cars stuck.", location: "Maple Ave", sentiment: "medium", need: "Tow & sandbags" }, { id: "p3", text: "Elderly require help in Block 12", location: "Block 12", sentiment: "medium", need: "Medical aid" }]);
+  const [posts, setPosts] = useState<Post[]>([
+    { id: "p1", text: "Heavy smoke near Sector X, visibility low.", location: "Sector X", sentiment: "high", need: "Masks & water" },
+    { id: "p2", text: "Flooded street around Maple Ave, cars stuck.", location: "Maple Ave", sentiment: "medium", need: "Tow & sandbags" },
+    { id: "p3", text: "Elderly require help in Block 12", location: "Block 12", sentiment: "medium", need: "Medical aid" },
+  ]);
 
   const [hotspots, setHotspots] = useState(
     Array.from({ length: 6 }).map((_, i) => ({ id: String(i), x: 10 + i * 14, y: 20 + (i % 2) * 12, severity: Math.random(), label: `S${i + 1}` }))
