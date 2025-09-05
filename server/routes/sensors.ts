@@ -61,7 +61,13 @@ export const postIngestSensor: RequestHandler = (req, res) => {
         lat: r.location?.lat,
         lon: r.location?.lon,
         node_id: r.deviceId,
-        evidence: [{ sensor: r.gas > 700 ? "mq2" : "pm2_5", value: r.gas > 700 ? r.gas : r.pm25, ts: r.ts }],
+        evidence: [
+          {
+            sensor: r.gas > 700 ? "mq2" : "pm2_5",
+            value: r.gas > 700 ? r.gas : r.pm25,
+            ts: r.ts,
+          },
+        ],
       });
     }
   } catch {}

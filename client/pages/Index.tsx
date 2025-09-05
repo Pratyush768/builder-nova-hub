@@ -20,7 +20,13 @@ interface Post {
   need: string;
 }
 
-interface AlertState { id: string; message: string; severity: "info" | "warning" | "critical"; verified: boolean; sector?: string }
+interface AlertState {
+  id: string;
+  message: string;
+  severity: "info" | "warning" | "critical";
+  verified: boolean;
+  sector?: string;
+}
 
 function statColor(value: number, warn: number, danger: number) {
   if (value >= danger) return "text-destructive";
@@ -77,7 +83,9 @@ export default function Index() {
     })),
   );
   const [alerts, setAlerts] = useState<AlertState[]>([]);
-  const [filter, setFilter] = useState<"all" | "normal" | "elevated" | "critical">("all");
+  const [filter, setFilter] = useState<
+    "all" | "normal" | "elevated" | "critical"
+  >("all");
   const [search, setSearch] = useState("");
 
   useEffect(() => {
@@ -224,19 +232,30 @@ export default function Index() {
   // Alerts: initial fetch + SSE updates
   useEffect(() => {
     let sse: EventSource | null = null;
-    fetch('/api/alerts').then(r=>r.json()).then((d:{alerts: AlertState[]})=>setAlerts(d.alerts||[])).catch(()=>{});
-    sse = new EventSource('/api/alerts/stream');
-    sse.addEventListener('alert', (e) => {
-      try{
-        const evt = JSON.parse((e as MessageEvent).data) as { data: AlertState };
-        setAlerts((arr)=>{
-          const idx = arr.findIndex(a=>a.id===evt.data.id);
-          if(idx>=0){ const n=[...arr]; n[idx]=evt.data; return n; }
-          return [evt.data, ...arr].slice(0,20);
+    fetch("/api/alerts")
+      .then((r) => r.json())
+      .then((d: { alerts: AlertState[] }) => setAlerts(d.alerts || []))
+      .catch(() => {});
+    sse = new EventSource("/api/alerts/stream");
+    sse.addEventListener("alert", (e) => {
+      try {
+        const evt = JSON.parse((e as MessageEvent).data) as {
+          data: AlertState;
+        };
+        setAlerts((arr) => {
+          const idx = arr.findIndex((a) => a.id === evt.data.id);
+          if (idx >= 0) {
+            const n = [...arr];
+            n[idx] = evt.data;
+            return n;
+          }
+          return [evt.data, ...arr].slice(0, 20);
         });
-      }catch{}
+      } catch {}
     });
-    return ()=>{ sse?.close(); };
+    return () => {
+      sse?.close();
+    };
   }, []);
 
   // Live feed via SSE (sensors + comms)
@@ -337,18 +356,20 @@ export default function Index() {
   return (
     <main>
       {/* Live verified alert banner from API */}
-      {alerts.length > 0 && alerts.some((a) => a.verified && a.severity === "critical") && (
-        <div className="sticky top-0 z-40">
-          <div className="bg-destructive text-destructive-foreground">
-            <div className="container flex items-center justify-between gap-4 py-2 text-sm font-semibold">
-              <div>
-                {alerts.find((a) => a.verified && a.severity === "critical")?.message || "VERIFIED ALERT"}
+      {alerts.length > 0 &&
+        alerts.some((a) => a.verified && a.severity === "critical") && (
+          <div className="sticky top-0 z-40">
+            <div className="bg-destructive text-destructive-foreground">
+              <div className="container flex items-center justify-between gap-4 py-2 text-sm font-semibold">
+                <div>
+                  {alerts.find((a) => a.verified && a.severity === "critical")
+                    ?.message || "VERIFIED ALERT"}
+                </div>
+                <div className="opacity-90">HLDMS</div>
               </div>
-              <div className="opacity-90">HLDMS</div>
             </div>
           </div>
-        </div>
-      )}
+        )}
 
       <section
         id="overview"
@@ -365,7 +386,8 @@ export default function Index() {
                 LifeLine360 — Hyper‑Local Disaster Intelligence
               </h1>
               <p className="mt-4 text-muted-foreground md:text-lg">
-                Street‑level sensors + community reports → verified alerts that save lives.
+                Street‑level sensors + community reports → verified alerts that
+                save lives.
               </p>
               <div className="mt-6 flex flex-wrap items-center gap-3" id="demo">
                 <Button onClick={() => setRunning((r) => !r)} disabled={live}>
@@ -460,20 +482,37 @@ export default function Index() {
                   </div>
                 </div>
                 <div className="mb-3 flex flex-wrap items-center gap-2 text-xs">
-                  <select value={filter} onChange={(e)=>setFilter(e.target.value as any)} className="rounded-md border bg-background px-2 py-1">
+                  <select
+                    value={filter}
+                    onChange={(e) => setFilter(e.target.value as any)}
+                    className="rounded-md border bg-background px-2 py-1"
+                  >
                     <option value="all">All</option>
                     <option value="normal">Normal</option>
                     <option value="elevated">Elevated</option>
                     <option value="critical">Critical</option>
                   </select>
-                  <input value={search} onChange={(e)=>setSearch(e.target.value)} placeholder="Search sector..." className="rounded-md border bg-background px-2 py-1" />
+                  <input
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="Search sector..."
+                    className="rounded-md border bg-background px-2 py-1"
+                  />
                 </div>
-                <Map hotspots={hotspots.filter(h=>{
-                  const matches = h.label.toLowerCase().includes(search.toLowerCase());
-                  const sev = h.severity;
-                  const sevOk = filter==='all' || (filter==='normal' && sev<0.33) || (filter==='elevated' && sev>=0.33 && sev<0.66) || (filter==='critical' && sev>=0.66);
-                  return matches && sevOk;
-                })} />
+                <Map
+                  hotspots={hotspots.filter((h) => {
+                    const matches = h.label
+                      .toLowerCase()
+                      .includes(search.toLowerCase());
+                    const sev = h.severity;
+                    const sevOk =
+                      filter === "all" ||
+                      (filter === "normal" && sev < 0.33) ||
+                      (filter === "elevated" && sev >= 0.33 && sev < 0.66) ||
+                      (filter === "critical" && sev >= 0.66);
+                    return matches && sevOk;
+                  })}
+                />
               </div>
 
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
@@ -630,24 +669,53 @@ export default function Index() {
                 <h3 className="mb-3 font-semibold">Alerts (Live)</h3>
                 <ul className="space-y-2 text-sm">
                   {alerts.length === 0 && (
-                    <li className="rounded-lg border bg-background p-3 text-muted-foreground">No alerts</li>
+                    <li className="rounded-lg border bg-background p-3 text-muted-foreground">
+                      No alerts
+                    </li>
                   )}
                   {alerts.map((a) => (
-                    <li key={a.id} className="rounded-lg border bg-background p-3">
+                    <li
+                      key={a.id}
+                      className="rounded-lg border bg-background p-3"
+                    >
                       <div className="flex items-center justify-between gap-3">
                         <div className="flex flex-col">
                           <div className="font-medium">{a.message}</div>
-                          <div className="text-xs text-muted-foreground">{a.sector || "Unknown sector"} · {a.severity}{a.verified ? " · Verified" : ""}</div>
+                          <div className="text-xs text-muted-foreground">
+                            {a.sector || "Unknown sector"} · {a.severity}
+                            {a.verified ? " · Verified" : ""}
+                          </div>
                         </div>
                         <div className="flex items-center gap-2">
-                          <span className={cn("rounded-full px-2 py-0.5 text-xs",
-                            a.severity === "critical" ? "bg-destructive/10 text-destructive" : a.severity === "warning" ? "bg-accent/10 text-accent" : "bg-primary/10 text-primary")}>{a.severity}</span>
+                          <span
+                            className={cn(
+                              "rounded-full px-2 py-0.5 text-xs",
+                              a.severity === "critical"
+                                ? "bg-destructive/10 text-destructive"
+                                : a.severity === "warning"
+                                  ? "bg-accent/10 text-accent"
+                                  : "bg-primary/10 text-primary",
+                            )}
+                          >
+                            {a.severity}
+                          </span>
                           {!a.verified && (
-                            <button onClick={async()=>{
-                              try {
-                                await fetch('/api/alerts/verify', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: a.id }) });
-                              } catch {}
-                            }} className="rounded-md border px-2 py-1 text-xs hover:bg-secondary">Verify</button>
+                            <button
+                              onClick={async () => {
+                                try {
+                                  await fetch("/api/alerts/verify", {
+                                    method: "POST",
+                                    headers: {
+                                      "Content-Type": "application/json",
+                                    },
+                                    body: JSON.stringify({ id: a.id }),
+                                  });
+                                } catch {}
+                              }}
+                              className="rounded-md border px-2 py-1 text-xs hover:bg-secondary"
+                            >
+                              Verify
+                            </button>
                           )}
                         </div>
                       </div>

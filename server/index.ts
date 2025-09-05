@@ -8,7 +8,12 @@ import {
   getSensorStream,
 } from "./routes/sensors";
 import { postIngestComm, getCommsStream, getInsights } from "./routes/comms";
-import { getAlerts, getAlertsStream, postVerifyAlert, postCreateAlert } from "./routes/alerts";
+import {
+  getAlerts,
+  getAlertsStream,
+  postVerifyAlert,
+  postCreateAlert,
+} from "./routes/alerts";
 
 export function createServer() {
   const app = express();

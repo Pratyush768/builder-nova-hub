@@ -104,9 +104,16 @@ export interface Alert {
   node_id?: string;
   first_ts: number;
   verified_ts?: number;
-  evidence?: Array<{ sensor?: string; value?: number | string; ts?: number; text?: string }>;
+  evidence?: Array<{
+    sensor?: string;
+    value?: number | string;
+    ts?: number;
+    text?: string;
+  }>;
 }
-export interface AlertsResponse { alerts: Alert[] }
+export interface AlertsResponse {
+  alerts: Alert[];
+}
 
 /* Server Sent Events */
 export type ServerEvent =

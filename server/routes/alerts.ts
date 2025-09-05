@@ -4,15 +4,20 @@ import type { Alert, AlertsResponse } from "@shared/api";
 const alerts: Alert[] = [];
 const clients = new Set<import("express").Response>();
 
-export function allAlerts(): Alert[] { return alerts; }
+export function allAlerts(): Alert[] {
+  return alerts;
+}
 
 export function createOrUpdateAlert(a: Alert) {
   const idx = alerts.findIndex((x) => x.id === a.id);
-  if (idx >= 0) alerts[idx] = a; else alerts.push(a);
+  if (idx >= 0) alerts[idx] = a;
+  else alerts.push(a);
   broadcast(a);
 }
 
-export function upsertThresholdAlert(partial: Omit<Alert, "id" | "first_ts"> & { id?: string }) {
+export function upsertThresholdAlert(
+  partial: Omit<Alert, "id" | "first_ts"> & { id?: string },
+) {
   const id = partial.id || `${partial.type}-${partial.sector || "global"}`;
   const existing = alerts.find((x) => x.id === id);
   const now = Date.now();
@@ -45,7 +50,8 @@ export const postVerifyAlert: RequestHandler = (req, res) => {
 
 export const postCreateAlert: RequestHandler = (req, res) => {
   const body = req.body as Partial<Alert>;
-  if (!body || !body.type || !body.message || !body.severity) return res.status(400).json({ error: "missing fields" });
+  if (!body || !body.type || !body.message || !body.severity)
+    return res.status(400).json({ error: "missing fields" });
   const a: Alert = {
     id: body.id || `${body.type}-${Date.now()}`,
     type: body.type,
