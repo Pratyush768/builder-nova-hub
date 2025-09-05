@@ -20,6 +20,8 @@ interface Post {
   need: string;
 }
 
+interface AlertState { id: string; message: string; severity: "info" | "warning" | "critical"; verified: boolean; sector?: string }
+
 function statColor(value: number, warn: number, danger: number) {
   if (value >= danger) return "text-destructive";
   if (value >= warn) return "text-accent";
