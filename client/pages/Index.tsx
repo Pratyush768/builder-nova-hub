@@ -337,12 +337,10 @@ export default function Index() {
                 with simulated streams
               </div>
               <h1 className="mt-4 text-4xl font-extrabold leading-tight tracking-tight md:text-5xl">
-                Hyper‑Localized Disaster Intelligence & Environmental Monitor
+                LifeLine360 — Hyper‑Local Disaster Intelligence
               </h1>
               <p className="mt-4 text-muted-foreground md:text-lg">
-                Combine real‑time sensor data with AI analysis of communication
-                to deliver actionable, street‑level insights during floods,
-                fires, and heatwaves.
+                Street‑level sensors + community reports → verified alerts that save lives.
               </p>
               <div className="mt-6 flex flex-wrap items-center gap-3" id="demo">
                 <Button onClick={() => setRunning((r) => !r)} disabled={live}>
