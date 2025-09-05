@@ -2,6 +2,8 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
+import { postIngestSensor, getLatestSensorHandler, getSensorStream } from "./routes/sensors";
+import { postIngestComm, getCommsStream, getInsights } from "./routes/comms";
 
 export function createServer() {
   const app = express();
@@ -18,6 +20,18 @@ export function createServer() {
   });
 
   app.get("/api/demo", handleDemo);
+
+  // Sensor API
+  app.post("/api/sensors/ingest", postIngestSensor);
+  app.get("/api/sensors/latest", getLatestSensorHandler);
+  app.get("/api/sensors/stream", getSensorStream);
+
+  // Communications API
+  app.post("/api/comms/ingest", postIngestComm);
+  app.get("/api/comms/stream", getCommsStream);
+
+  // Insights API
+  app.get("/api/insights", getInsights);
 
   return app;
 }
