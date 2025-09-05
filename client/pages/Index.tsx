@@ -221,6 +221,24 @@ export default function Index() {
     return out;
   }, [sensors]);
 
+  // Alerts: initial fetch + SSE updates
+  useEffect(() => {
+    let sse: EventSource | null = null;
+    fetch('/api/alerts').then(r=>r.json()).then((d:{alerts: AlertState[]})=>setAlerts(d.alerts||[])).catch(()=>{});
+    sse = new EventSource('/api/alerts/stream');
+    sse.addEventListener('alert', (e) => {
+      try{
+        const evt = JSON.parse((e as MessageEvent).data) as { data: AlertState };
+        setAlerts((arr)=>{
+          const idx = arr.findIndex(a=>a.id===evt.data.id);
+          if(idx>=0){ const n=[...arr]; n[idx]=evt.data; return n; }
+          return [evt.data, ...arr].slice(0,20);
+        });
+      }catch{}
+    });
+    return ()=>{ sse?.close(); };
+  }, []);
+
   // Live feed via SSE (sensors + comms)
   useEffect(() => {
     if (!live) return;
