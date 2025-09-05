@@ -625,6 +625,36 @@ export default function Index() {
                   ))}
                 </ul>
               </div>
+
+              <div className="rounded-xl border bg-card p-4 shadow-soft">
+                <h3 className="mb-3 font-semibold">Alerts (Live)</h3>
+                <ul className="space-y-2 text-sm">
+                  {alerts.length === 0 && (
+                    <li className="rounded-lg border bg-background p-3 text-muted-foreground">No alerts</li>
+                  )}
+                  {alerts.map((a) => (
+                    <li key={a.id} className="rounded-lg border bg-background p-3">
+                      <div className="flex items-center justify-between gap-3">
+                        <div className="flex flex-col">
+                          <div className="font-medium">{a.message}</div>
+                          <div className="text-xs text-muted-foreground">{a.sector || "Unknown sector"} · {a.severity}{a.verified ? " · Verified" : ""}</div>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <span className={cn("rounded-full px-2 py-0.5 text-xs",
+                            a.severity === "critical" ? "bg-destructive/10 text-destructive" : a.severity === "warning" ? "bg-accent/10 text-accent" : "bg-primary/10 text-primary")}>{a.severity}</span>
+                          {!a.verified && (
+                            <button onClick={async()=>{
+                              try {
+                                await fetch('/api/alerts/verify', { method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({ id: a.id }) });
+                              } catch {}
+                            }} className="rounded-md border px-2 py-1 text-xs hover:bg-secondary">Verify</button>
+                          )}
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
             </div>
           </div>
         </div>
