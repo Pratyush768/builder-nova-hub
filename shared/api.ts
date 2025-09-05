@@ -90,8 +90,27 @@ export interface InsightsResponse {
   summary: CorrelationInsight;
 }
 
+/* Alerts */
+export type AlertSeverity = "info" | "warning" | "critical";
+export interface Alert {
+  id: string;
+  type: "fire" | "flood" | "gas" | "quake" | string;
+  severity: AlertSeverity;
+  verified: boolean;
+  sector?: string;
+  message: string;
+  lat?: number;
+  lon?: number;
+  node_id?: string;
+  first_ts: number;
+  verified_ts?: number;
+  evidence?: Array<{ sensor?: string; value?: number | string; ts?: number; text?: string }>;
+}
+export interface AlertsResponse { alerts: Alert[] }
+
 /* Server Sent Events */
 export type ServerEvent =
   | { type: "sensor"; data: SensorReading }
   | { type: "insight"; data: CorrelationInsight }
-  | { type: "comm"; data: CommAnalysis };
+  | { type: "comm"; data: CommAnalysis }
+  | { type: "alert"; data: Alert };
