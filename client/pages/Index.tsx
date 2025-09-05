@@ -337,7 +337,7 @@ export default function Index() {
   return (
     <main>
       {/* Live verified alert banner from API */}
-      {alerts.some((a) => a.verified && a.severity === "critical") && (
+      {alerts.length > 0 && alerts.some((a) => a.verified && a.severity === "critical") && (
         <div className="sticky top-0 z-40">
           <div className="bg-destructive text-destructive-foreground">
             <div className="container flex items-center justify-between gap-4 py-2 text-sm font-semibold">
