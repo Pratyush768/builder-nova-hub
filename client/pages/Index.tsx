@@ -544,7 +544,7 @@ export default function Index() {
 
               <div className="rounded-xl border bg-card p-4 shadow-soft">
                 <h3 className="mb-3 font-semibold">Alerts</h3>
-                <ul className="space-y-2 text-sm">
+                <ul className="space-y-2 text-sm" role="status" aria-live="polite">
                   {alerts.map((a) => (
                     <li
                       key={a.id}
