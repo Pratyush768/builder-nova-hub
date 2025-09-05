@@ -6,6 +6,7 @@ import type {
   ServerEvent,
 } from "@shared/api";
 import { addSensor, getLatestSensor, computeInsight } from "./data-store";
+import { upsertThresholdAlert } from "./alerts";
 
 const clients = new Set<import("express").Response>();
 let heartbeat: NodeJS.Timeout | null = null;
@@ -50,7 +51,6 @@ export const postIngestSensor: RequestHandler = (req, res) => {
   try {
     const sector = r.sector || "Sector A";
     if (r.pm25 > 200 || r.gas > 700) {
-      const { upsertThresholdAlert } = require("./alerts");
       upsertThresholdAlert({
         id: `critical-${sector}`,
         type: r.gas > 700 ? "gas" : "fire",
