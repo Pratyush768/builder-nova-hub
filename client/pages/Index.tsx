@@ -424,7 +424,7 @@ export default function Index() {
                   </h3>
                   <TrendChart
                     data={trendPM}
-                    color="#10b981"
+                    color="#06b6d4"
                     label="µg/m³ over time"
                   />
                 </div>
@@ -432,7 +432,7 @@ export default function Index() {
                   <h3 className="mb-2 font-semibold">Urgency Sentiment</h3>
                   <TrendChart
                     data={trendSent}
-                    color="#f59e0b"
+                    color="#a78bfa"
                     label="Relative urgency from communications"
                   />
                 </div>
