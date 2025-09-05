@@ -401,7 +401,7 @@ export default function Index() {
         </div>
       </section>
 
-      <section id="dashboard" className="relative py-12 md:py-16">
+      <section id="dashboard" className="relative py-12 md:py-20">
         <div className="container">
           <div className="mb-6 flex items-end justify-between gap-4">
             <div>
