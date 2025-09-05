@@ -307,6 +307,7 @@ export default function Index() {
     return () => {
       sseSensors?.close();
       sseComms?.close();
+      setLiveStatus("idle");
     };
   }, [live]);
 
