@@ -342,6 +342,26 @@ export default function Index() {
                 >
                   {live ? "Using Live Feed" : "Use Live Feed"}
                 </Button>
+                {live && (
+                  <span
+                    className={cn(
+                      "inline-flex items-center gap-2 rounded-full border px-3 py-1 text-xs",
+                      liveStatus === "open" && "border-green-500/40 text-green-600 dark:text-green-400",
+                      liveStatus === "connecting" && "border-yellow-500/40 text-yellow-600 dark:text-yellow-400",
+                      liveStatus === "error" && "border-destructive/40 text-destructive",
+                    )}
+                  >
+                    <span
+                      className={cn(
+                        "h-2 w-2 rounded-full",
+                        liveStatus === "open" && "bg-green-500 animate-pulse",
+                        liveStatus === "connecting" && "bg-yellow-500 animate-pulse",
+                        liveStatus === "error" && "bg-destructive",
+                      )}
+                    />
+                    {liveStatus === "open" ? "Connected" : liveStatus === "connecting" ? "Connecting…" : liveStatus === "error" ? "Error" : "Idle"}
+                  </span>
+                )}
                 <a href="#dashboard" className="inline-flex">
                   <Button variant="secondary">Jump to Dashboard</Button>
                 </a>
