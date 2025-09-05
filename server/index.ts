@@ -38,10 +38,10 @@ export function createServer() {
   app.get("/api/insights", getInsights);
 
   // Alerts API
-  app.get("/api/alerts", require("./routes/alerts").getAlerts);
-  app.get("/api/alerts/stream", require("./routes/alerts").getAlertsStream);
-  app.post("/api/alerts/verify", require("./routes/alerts").postVerifyAlert);
-  app.post("/api/alerts/create", require("./routes/alerts").postCreateAlert);
+  app.get("/api/alerts", (await import("./routes/alerts")).getAlerts);
+  app.get("/api/alerts/stream", (await import("./routes/alerts")).getAlertsStream);
+  app.post("/api/alerts/verify", (await import("./routes/alerts")).postVerifyAlert);
+  app.post("/api/alerts/create", (await import("./routes/alerts")).postCreateAlert);
 
   return app;
 }
