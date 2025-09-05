@@ -459,7 +459,21 @@ export default function Index() {
                     Severity heat halos indicate risk
                   </div>
                 </div>
-                <Map hotspots={hotspots} />
+                <div className="mb-3 flex flex-wrap items-center gap-2 text-xs">
+                  <select value={filter} onChange={(e)=>setFilter(e.target.value as any)} className="rounded-md border bg-background px-2 py-1">
+                    <option value="all">All</option>
+                    <option value="normal">Normal</option>
+                    <option value="elevated">Elevated</option>
+                    <option value="critical">Critical</option>
+                  </select>
+                  <input value={search} onChange={(e)=>setSearch(e.target.value)} placeholder="Search sector..." className="rounded-md border bg-background px-2 py-1" />
+                </div>
+                <Map hotspots={hotspots.filter(h=>{
+                  const matches = h.label.toLowerCase().includes(search.toLowerCase());
+                  const sev = h.severity;
+                  const sevOk = filter==='all' || (filter==='normal' && sev<0.33) || (filter==='elevated' && sev>=0.33 && sev<0.66) || (filter==='critical' && sev>=0.66);
+                  return matches && sevOk;
+                })} />
               </div>
 
               <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
