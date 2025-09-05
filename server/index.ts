@@ -2,7 +2,11 @@ import "dotenv/config";
 import express from "express";
 import cors from "cors";
 import { handleDemo } from "./routes/demo";
-import { postIngestSensor, getLatestSensorHandler, getSensorStream } from "./routes/sensors";
+import {
+  postIngestSensor,
+  getLatestSensorHandler,
+  getSensorStream,
+} from "./routes/sensors";
 import { postIngestComm, getCommsStream, getInsights } from "./routes/comms";
 
 export function createServer() {

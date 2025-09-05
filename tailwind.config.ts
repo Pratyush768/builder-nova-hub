@@ -111,8 +111,7 @@ export default {
       backgroundImage: {
         "grid-fade":
           "radial-gradient(circle at 1px 1px, hsl(var(--border)) 1px, transparent 0)",
-        "glow":
-          "radial-gradient(60% 60% at 50% 0%, hsla(var(--primary),0.15), transparent 60%)",
+        glow: "radial-gradient(60% 60% at 50% 0%, hsla(var(--primary),0.15), transparent 60%)",
       },
       boxShadow: {
         soft: "0 10px 25px -10px rgba(0,0,0,0.15)",

@@ -94,8 +94,17 @@
 
   body {
     @apply bg-background text-foreground antialiased;
-    background-image: linear-gradient(to bottom right, hsla(var(--primary),0.05), transparent 40%),
-      radial-gradient(60% 50% at 0% -10%, hsla(var(--accent),0.08), transparent 60%);
+    background-image:
+      linear-gradient(
+        to bottom right,
+        hsla(var(--primary), 0.05),
+        transparent 40%
+      ),
+      radial-gradient(
+        60% 50% at 0% -10%,
+        hsla(var(--accent), 0.08),
+        transparent 60%
+      );
     background-attachment: fixed;
   }
 }

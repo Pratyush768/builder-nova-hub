@@ -1,5 +1,10 @@
 import type { RequestHandler } from "express";
-import type { IngestSensorRequest, LatestSensorResponse, SensorReading, ServerEvent } from "@shared/api";
+import type {
+  IngestSensorRequest,
+  LatestSensorResponse,
+  SensorReading,
+  ServerEvent,
+} from "@shared/api";
 import { addSensor, getLatestSensor, computeInsight } from "./data-store";
 
 const clients = new Set<import("express").Response>();
@@ -22,7 +27,8 @@ function stopHeartbeatIfIdle() {
 
 export const postIngestSensor: RequestHandler = (req, res) => {
   const body = req.body as IngestSensorRequest;
-  if (!body || !body.reading) return res.status(400).json({ error: "missing reading" });
+  if (!body || !body.reading)
+    return res.status(400).json({ error: "missing reading" });
   const r: SensorReading = {
     ...body.reading,
     ts: body.reading.ts ?? Date.now(),

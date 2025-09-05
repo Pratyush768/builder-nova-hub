@@ -1,24 +1,41 @@
 import { useMemo } from "react";
 
-type Hotspot = { id: string; x: number; y: number; severity: number; label: string };
+type Hotspot = {
+  id: string;
+  x: number;
+  y: number;
+  severity: number;
+  label: string;
+};
 
 export default function Map({ hotspots }: { hotspots: Hotspot[] }) {
-  const defs = useMemo(() => (
-    <defs>
-      <radialGradient id="hot" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stopColor="hsl(var(--destructive))" stopOpacity={0.85} />
-        <stop offset="100%" stopColor="hsl(var(--destructive))" stopOpacity={0} />
-      </radialGradient>
-      <radialGradient id="warn" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stopColor="hsl(var(--accent))" stopOpacity={0.8} />
-        <stop offset="100%" stopColor="hsl(var(--accent))" stopOpacity={0} />
-      </radialGradient>
-      <radialGradient id="ok" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={0.7} />
-        <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity={0} />
-      </radialGradient>
-    </defs>
-  ), []);
+  const defs = useMemo(
+    () => (
+      <defs>
+        <radialGradient id="hot" cx="50%" cy="50%" r="50%">
+          <stop
+            offset="0%"
+            stopColor="hsl(var(--destructive))"
+            stopOpacity={0.85}
+          />
+          <stop
+            offset="100%"
+            stopColor="hsl(var(--destructive))"
+            stopOpacity={0}
+          />
+        </radialGradient>
+        <radialGradient id="warn" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="hsl(var(--accent))" stopOpacity={0.8} />
+          <stop offset="100%" stopColor="hsl(var(--accent))" stopOpacity={0} />
+        </radialGradient>
+        <radialGradient id="ok" cx="50%" cy="50%" r="50%">
+          <stop offset="0%" stopColor="hsl(var(--primary))" stopOpacity={0.7} />
+          <stop offset="100%" stopColor="hsl(var(--primary))" stopOpacity={0} />
+        </radialGradient>
+      </defs>
+    ),
+    [],
+  );
 
   return (
     <div className="relative aspect-[16/10] w-full overflow-hidden rounded-xl border bg-card shadow-soft">
@@ -28,17 +45,29 @@ export default function Map({ hotspots }: { hotspots: Hotspot[] }) {
         <defs>
           <pattern id="grid" width="4" height="4" patternUnits="userSpaceOnUse">
             <rect width="4" height="4" fill="transparent" />
-            <path d="M 4 0 L 0 0 0 4" fill="none" stroke="hsl(var(--border))" strokeWidth="0.25" />
+            <path
+              d="M 4 0 L 0 0 0 4"
+              fill="none"
+              stroke="hsl(var(--border))"
+              strokeWidth="0.25"
+            />
           </pattern>
         </defs>
         {hotspots.map((p) => {
           const r = 6 + p.severity * 3;
-          const g = p.severity >= 0.66 ? "url(#hot)" : p.severity >= 0.33 ? "url(#warn)" : "url(#ok)";
+          const g =
+            p.severity >= 0.66
+              ? "url(#hot)"
+              : p.severity >= 0.33
+                ? "url(#warn)"
+                : "url(#ok)";
           return (
             <g key={p.id} transform={`translate(${p.x} ${p.y})`}>
               <circle r={r} fill={g} />
               <circle r={1.3} fill="white" stroke="black" strokeWidth={0.15} />
-              <text x={2.5} y={-2} fontSize={2.6} fill="hsl(var(--foreground))">{p.label}</text>
+              <text x={2.5} y={-2} fontSize={2.6} fill="hsl(var(--foreground))">
+                {p.label}
+              </text>
             </g>
           );
         })}

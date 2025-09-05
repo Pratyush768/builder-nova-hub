@@ -1,4 +1,9 @@
-import type { CommAnalysis, CorrelationInsight, NLPResult, SensorReading } from "@shared/api";
+import type {
+  CommAnalysis,
+  CorrelationInsight,
+  NLPResult,
+  SensorReading,
+} from "@shared/api";
 
 const SENSOR_BUFFER_LIMIT = 1000;
 const COMM_BUFFER_LIMIT = 1000;
@@ -30,9 +35,16 @@ export function getCommsWindow(windowMs: number): CommAnalysis[] {
   return comms.filter((c) => c.post.ts >= cutoff);
 }
 
-export function computeInsight(windowMs: number, sector?: string): CorrelationInsight {
-  const s = getSensorsWindow(windowMs).filter((r) => (sector ? r.sector === sector : true));
-  const c = getCommsWindow(windowMs).filter((x) => (sector ? x.post.location === sector : true));
+export function computeInsight(
+  windowMs: number,
+  sector?: string,
+): CorrelationInsight {
+  const s = getSensorsWindow(windowMs).filter((r) =>
+    sector ? r.sector === sector : true,
+  );
+  const c = getCommsWindow(windowMs).filter((x) =>
+    sector ? x.post.location === sector : true,
+  );
 
   const pm25Avg = s.length ? s.reduce((a, b) => a + b.pm25, 0) / s.length : 0;
   const highUrgencyCount = c.filter((x) => x.nlp.urgency === "high").length;
@@ -43,11 +55,24 @@ export function computeInsight(windowMs: number, sector?: string): CorrelationIn
   const correlation = Math.min(pmScaled, commScaled);
 
   const anomalies: string[] = [];
-  if (pmScaled > 0.7 && commScaled < 0.2) anomalies.push("Sensor spike without matching reports");
-  if (pmScaled < 0.2 && commScaled > 0.7) anomalies.push("High urgency reports without sensor confirmation");
+  if (pmScaled > 0.7 && commScaled < 0.2)
+    anomalies.push("Sensor spike without matching reports");
+  if (pmScaled < 0.2 && commScaled > 0.7)
+    anomalies.push("High urgency reports without sensor confirmation");
 
-  return { sector, windowMs, pm25Avg, highUrgencyCount, correlation, anomalies };
+  return {
+    sector,
+    windowMs,
+    pm25Avg,
+    highUrgencyCount,
+    correlation,
+    anomalies,
+  };
 }
 
-export function allSensors(): SensorReading[] { return sensors; }
-export function allComms(): CommAnalysis[] { return comms; }
+export function allSensors(): SensorReading[] {
+  return sensors;
+}
+export function allComms(): CommAnalysis[] {
+  return comms;
+}
